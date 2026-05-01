@@ -36,4 +36,12 @@ window.IMAGE_SOURCES = [
   "./assets/images/User_035.png",
   "./assets/images/User_036.png",
   "./assets/images/User_037.png",
+  "./assets/images/User_038.png",
+  "./assets/images/User_039.png",
+  "./assets/images/User_040.png",
+  "./assets/images/User_041.png",
+  "./assets/images/User_042.png",
+  "./assets/images/User_043.png",
+  "./assets/images/User_044.png",
+  "./assets/images/User_045.png",
 ];
