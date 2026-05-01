@@ -1,0 +1,356 @@
+:root {
+  --page-bg: #08111d;
+  --text-main: #f6f2e9;
+  --panel-shadow: 0 18px 46px rgba(5, 8, 15, 0.28);
+  --panel-fill: rgba(231, 232, 234, 0.97);
+  --frame-radius: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--page-bg);
+}
+
+body {
+  overflow: hidden;
+  font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  color: var(--text-main);
+}
+
+img,
+video {
+  display: block;
+}
+
+.page-shell {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  isolation: isolate;
+  overflow: hidden;
+  background: #000;
+}
+
+.background-video,
+.background-scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.background-video {
+  object-fit: cover;
+  z-index: -3;
+  background: #000;
+}
+
+.background-scrim {
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.36)),
+    radial-gradient(circle at 50% 90%, rgba(238, 255, 206, 0.12), transparent 24%);
+}
+
+.search-fab {
+  position: fixed;
+  top: max(1.1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 35;
+  width: 3.15rem;
+  height: 3.15rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.search-fab.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.92);
+}
+
+.search-fab img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.search-panel {
+  position: fixed;
+  inset: 0 auto auto 0;
+  width: 100%;
+  z-index: 45;
+  transform: translateY(calc(-100% - 1rem));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 280ms ease, opacity 280ms ease;
+}
+
+.search-panel.is-open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-panel-shell {
+  width: 100%;
+  padding-top: calc(max(1.65rem, env(safe-area-inset-top)) + 30px);
+  padding:
+    calc(max(1.65rem, env(safe-area-inset-top)) + 30px)
+    max(0.9rem, env(safe-area-inset-right))
+    2.35rem
+    max(0.9rem, env(safe-area-inset-left));
+  border-bottom-left-radius: 1.4rem;
+  border-bottom-right-radius: 1.4rem;
+  background: rgba(67, 71, 61, 0.84);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: min(92vw, 22rem);
+  margin: 30px auto 0;
+  padding: 0.2rem 0.32rem 0.2rem 1rem;
+  border: 1px solid rgba(206, 227, 181, 0.38);
+  border-radius: 999px;
+  background: rgba(21, 26, 20, 0.88);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #E6FAD1;
+  font-size: 1rem;
+}
+
+.search-input::placeholder {
+  color: #798671;
+}
+
+.search-input:focus::placeholder {
+  color: transparent;
+}
+
+.search-submit {
+  display: grid;
+  place-items: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.search-submit img {
+  width: 1.45rem;
+  height: 1.45rem;
+  object-fit: contain;
+}
+
+.content-layer {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding:
+    max(0.8rem, env(safe-area-inset-top))
+    max(0.7rem, env(safe-area-inset-right))
+    max(0.8rem, env(safe-area-inset-bottom))
+    max(0.7rem, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-shell {
+  position: relative;
+  width: min(94vw, 25rem);
+  height: min(88vh, 48rem);
+}
+
+.image-frame {
+  position: absolute;
+  width: 56%;
+  aspect-ratio: 1.44 / 1;
+  overflow: visible;
+  filter: drop-shadow(0 0 16px rgba(198, 255, 180, 0.22));
+}
+
+.image-frame:nth-child(1) {
+  top: 2%;
+  left: 2%;
+}
+
+.image-frame:nth-child(2) {
+  top: 28%;
+  right: 2%;
+}
+
+.image-frame:nth-child(3) {
+  top: 56%;
+  left: 7%;
+}
+
+.image-frame:nth-child(4) {
+  top: 80%;
+  right: 4%;
+}
+
+.image-stage,
+.frame-overlay {
+  position: absolute;
+}
+
+.image-stage {
+  inset: 11% 7.5% 11% 7.5%;
+  overflow: hidden;
+  border-radius: var(--frame-radius);
+  background: var(--panel-fill);
+  box-shadow: var(--panel-shadow);
+  z-index: 1;
+}
+
+.stage-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1);
+  will-change: opacity, transform;
+}
+
+.stage-image.is-active {
+  opacity: 1;
+}
+
+.stage-image.is-entering {
+  animation: image-enter var(--transition-duration, 500ms) ease forwards;
+}
+
+.stage-image.is-leaving {
+  animation: image-leave var(--transition-duration, 500ms) ease forwards;
+}
+
+.frame-overlay {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.dialog-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+}
+
+.dialog-layer[hidden] {
+  display: none !important;
+}
+
+.dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.dialog-card {
+  position: relative;
+  width: min(72vw, 15rem);
+  border-radius: 0.72rem;
+  overflow: hidden;
+  background: rgba(31, 39, 29, 0.94);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.32);
+}
+
+.dialog-message {
+  margin: 0;
+  padding: 0.95rem 0.9rem 0.85rem;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.35;
+  color: #E6FAD1;
+}
+
+.dialog-confirm {
+  width: 100%;
+  padding: 0.82rem 0.9rem;
+  border: 0;
+  border-top: 1px solid rgba(191, 209, 169, 0.22);
+  background: rgba(24, 31, 23, 0.96);
+  color: rgba(241, 243, 233, 0.96);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.status-banner {
+  display: none;
+}
+
+.status-banner.is-error {
+  color: #ffd5c2;
+}
+
+@keyframes image-enter {
+  0% {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes image-leave {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@media (min-width: 701px) {
+  .grid-shell {
+    width: min(72vw, 30rem);
+    height: min(88vh, 54rem);
+  }
+
+  .image-frame {
+    width: 54%;
+  }
+
+  .search-panel-shell {
+    padding-bottom: 2.55rem;
+  }
+}
